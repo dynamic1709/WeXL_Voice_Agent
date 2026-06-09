@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.angular/
+out-tsc/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+npm-debug.log
+yarn-error.log
+.env
+.env.local
+*.log
+package-lock.json
+yarn.lock

@@ -1,0 +1,106 @@
+<div class="registration-wrapper">
+    <div class="glass-card registration-card">
+        <div class="header-section">
+            <h2 class="title">Create Account</h2>
+            <p class="subtitle">Join us to get started</p>
+        </div>
+
+        <!-- Success Message -->
+        <div *ngIf="successMessage" class="modern-alert alert-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            {{ successMessage }}
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="modern-alert alert-danger">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+            {{ errorMessage }}
+        </div>
+
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+            
+            <div class="form-row-2">
+                <div class="modern-form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" formControlName="firstName" class="modern-input" [class.is-invalid]="submitted && f['firstName'].errors" placeholder="John" />
+                    <div *ngIf="submitted && f['firstName'].errors" class="modern-error-text">
+                        <span *ngIf="f['firstName'].errors['required']">Required</span>
+                        <span *ngIf="f['firstName'].errors['minlength']">Min 2 chars</span>
+                    </div>
+                </div>
+
+                <div class="modern-form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" formControlName="lastName" class="modern-input" [class.is-invalid]="submitted && f['lastName'].errors" placeholder="Doe" />
+                    <div *ngIf="submitted && f['lastName'].errors" class="modern-error-text">
+                        <span *ngIf="f['lastName'].errors['required']">Required</span>
+                        <span *ngIf="f['lastName'].errors['minlength']">Min 2 chars</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modern-form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" formControlName="email" class="modern-input" [class.is-invalid]="submitted && f['email'].errors" placeholder="name@example.com" />
+                <div *ngIf="submitted && f['email'].errors" class="modern-error-text">
+                    <span *ngIf="f['email'].errors['required']">Email is required</span>
+                    <span *ngIf="f['email'].errors['email']">Enter a valid email</span>
+                </div>
+            </div>
+
+            <div class="modern-form-group">
+                <label for="mobileNumber">Mobile Number</label>
+                <input type="tel" id="mobileNumber" formControlName="mobileNumber" class="modern-input" [class.is-invalid]="submitted && f['mobileNumber'].errors" placeholder="1234567890" />
+                <div *ngIf="submitted && f['mobileNumber'].errors" class="modern-error-text">
+                    <span *ngIf="f['mobileNumber'].errors['required']">Mobile number is required</span>
+                    <span *ngIf="f['mobileNumber'].errors['pattern']">Must be 10 digits</span>
+                </div>
+            </div>
+
+            <div class="modern-form-group">
+                <label for="bio">Bio <span style="opacity: 0.6; font-size: 0.8rem;">(Optional)</span></label>
+                <textarea id="bio" formControlName="bio" class="modern-input" placeholder="Tell us about yourself..." rows="2"></textarea>
+            </div>
+
+            <div class="form-row-2">
+                <div class="modern-form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" formControlName="password" class="modern-input" [class.is-invalid]="submitted && f['password'].errors" placeholder="••••••••" />
+                    <div *ngIf="submitted && f['password'].errors" class="modern-error-text">
+                        <span *ngIf="f['password'].errors['required']">Required</span>
+                        <span *ngIf="f['password'].errors['minlength']">Min 6 chars</span>
+                    </div>
+                </div>
+
+                <div class="modern-form-group">
+                    <label for="confirmPassword">Confirm</label>
+                    <input type="password" id="confirmPassword" formControlName="confirmPassword" class="modern-input" [class.is-invalid]="submitted && f['confirmPassword'].errors" placeholder="••••••••" />
+                    <div *ngIf="submitted && f['confirmPassword'].errors" class="modern-error-text">
+                        <span *ngIf="f['confirmPassword'].errors['required']">Required</span>
+                        <span *ngIf="f['confirmPassword'].errors['passwordMismatch']">Don't match</span>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="submitted && registrationForm.errors?.['passwordMismatch']" class="modern-error-text" style="margin-top: -10px; margin-bottom: 15px; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Passwords do not match
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-modern" [disabled]="loading">
+                    <div *ngIf="loading" class="spinner-loader"></div>
+                    <span *ngIf="!loading">Create Account</span>
+                    <span *ngIf="loading">Creating...</span>
+                </button>
+                <button type="button" class="btn-outline-modern" (click)="resetForm()" [disabled]="loading" style="width: 100%;">
+                    Clear Form
+                </button>
+            </div>
+
+            <div class="form-footer">
+                <p>Already have an account? <a routerLink="/login">Log in</a></p>
+            </div>
+        </form>
+    </div>
+</div>
