@@ -49,3 +49,7 @@ venv/
 # OS-specific
 .DS_Store
 Thumbs.db
+
+# Data files
+*.csv
+NEC_Placements_With_Companies.csv
